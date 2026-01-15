@@ -8,8 +8,8 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10"></div>
         <img
-          src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2940&auto=format&fit=crop"
-          alt="Athletes training"
+          src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=2826&auto=format&fit=crop"
+          alt="Group of runners running up the mountain"
           className="w-full h-full object-cover opacity-70"
         />
       </div>

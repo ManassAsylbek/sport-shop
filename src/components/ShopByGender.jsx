@@ -35,8 +35,8 @@ export default function ShopByGender() {
           >
             <div className="absolute inset-0">
               <img
-                src="https://images.unsplash.com/photo-1605296867424-35fc25c9212a?q=80&w=2940&auto=format&fit=crop"
-                alt="Men's Activewear"
+                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop"
+                alt="Men's Activewear - Running and Training"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
@@ -83,8 +83,8 @@ export default function ShopByGender() {
           >
             <div className="absolute inset-0">
               <img
-                src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2940&auto=format&fit=crop"
-                alt="Women's Activewear"
+                src="https://images.unsplash.com/photo-1550345332-09e3ac987658?q=80&w=2787&auto=format&fit=crop"
+                alt="Women's Activewear - Strength Training"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
