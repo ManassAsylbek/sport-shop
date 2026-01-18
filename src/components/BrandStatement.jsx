@@ -18,9 +18,14 @@ export default function BrandStatement() {
             compete with others, but to improve themselves.
           </h2>
 
-          <p className="text-xl text-gray-600 leading-relaxed">
-            Clean design, functional comfort, and performance you can rely on —
-            whether you're training, running, or living in motion.
+          <p className="text-xl text-gray-600 leading-relaxed mb-6">
+            Clean design, functional comfort, and performance you can rely on.
+            Built by real people who train, for real people who move.
+          </p>
+
+          <p className="text-lg text-gray-500 italic">
+            Quality materials. Honest pricing. Local values. Sustainable
+            choices.
           </p>
         </motion.div>
 

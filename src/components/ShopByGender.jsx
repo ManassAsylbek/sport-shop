@@ -59,7 +59,7 @@ export default function ShopByGender() {
                 </p>
 
                 <motion.a
-                  href="#men"
+                  href="/shop-men"
                   className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-semibold rounded-lg text-lg group-hover:bg-blue-500 group-hover:text-white transition-all duration-300"
                   whileHover={{ x: 10 }}
                 >
@@ -107,7 +107,7 @@ export default function ShopByGender() {
                 </p>
 
                 <motion.a
-                  href="#women"
+                  href="/shop-women"
                   className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-semibold rounded-lg text-lg group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300"
                   whileHover={{ x: 10 }}
                 >

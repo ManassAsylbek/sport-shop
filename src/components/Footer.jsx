@@ -3,22 +3,22 @@ import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 
 const navigation = {
   shop: [
-    { name: "Men's Collection", href: "#men" },
-    { name: "Women's Collection", href: "#women" },
-    { name: "New Arrivals", href: "#new" },
-    { name: "Best Sellers", href: "#bestsellers" },
+    { name: "Men's Collection", href: "/shop-men" },
+    { name: "Women's Collection", href: "/shop-women" },
+    { name: "New Arrivals", href: "/shop-men" },
+    { name: "Best Sellers", href: "/shop-women" },
   ],
   company: [
-    { name: "About Us", href: "#about" },
-    { name: "Our Story", href: "#story" },
-    { name: "Sustainability", href: "#sustainability" },
-    { name: "Community", href: "#community" },
+    { name: "About Us", href: "/about" },
+    { name: "Our Story", href: "/about" },
+    { name: "Sustainability", href: "/about" },
+    { name: "Community", href: "/" },
   ],
   support: [
-    { name: "Contact", href: "#contact" },
-    { name: "Shipping & Returns", href: "#shipping" },
-    { name: "Size Guide", href: "#size-guide" },
-    { name: "FAQ", href: "#faq" },
+    { name: "Contact", href: "/contact" },
+    { name: "Shipping & Returns", href: "/contact" },
+    { name: "Size Guide", href: "/contact" },
+    { name: "FAQ", href: "/contact" },
   ],
   social: [
     {

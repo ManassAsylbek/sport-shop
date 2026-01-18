@@ -8,11 +8,11 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
-  { name: "Home", href: "#" },
-  { name: "Men", href: "#men" },
-  { name: "Women", href: "#women" },
-  { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "Men", href: "/shop-men" },
+  { name: "Women", href: "/shop-women" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navigation() {
@@ -30,37 +30,35 @@ export default function Navigation() {
 
   return (
     <header
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+      className={`fixed w-full top-0 z-50 transition-all duration-300 overflow-x-hidden ${
         scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="flex items-center justify-between py-6">
+      <nav
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-x-hidden"
+        aria-label="Top"
+      >
+        <div className="flex items-center justify-between py-2 max-w-full">
           {/* Logo */}
-          <div className="flex lg:flex-1">
-            <a href="#" className="flex items-center gap-2">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2"
-              >
-                <span
-                  className={`text-2xl font-bold transition-colors ${
-                    scrolled ? "text-gray-900" : "text-white"
-                  }`}
-                >
-                  Personal Best
-                </span>
-              </motion.div>
+          <div className="flex flex-1 lg:flex-1">
+            <a href="/" className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="Personal Best"
+                className={`h-10 sm:h-12 md:h-14 lg:h-16 w-auto transition-all ${
+                  scrolled ? "brightness-0" : "brightness-100"
+                }`}
+              />
             </a>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:gap-x-8">
+          <div className="hidden lg:flex lg:gap-x-6 xl:gap-x-8">
             {navigation.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className={`text-base font-semibold transition-colors relative group ${
+                className={`text-sm xl:text-base font-semibold transition-colors relative group whitespace-nowrap ${
                   scrolled
                     ? "text-gray-900 hover:text-blue-600"
                     : "text-white hover:text-blue-400"
@@ -77,34 +75,32 @@ export default function Navigation() {
           </div>
 
           {/* Right side - Cart & Mobile menu */}
-          <div className="flex items-center gap-4 lg:flex-1 lg:justify-end">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className={`p-2 rounded-lg transition-colors ${
-                scrolled
-                  ? "text-gray-900 hover:bg-gray-100"
-                  : "text-white hover:bg-white/10"
-              }`}
-            >
-              <ShoppingCartIcon className="h-6 w-6" />
-            </motion.button>
-
-            {/* Mobile menu button */}
-            <div className="lg:hidden">
+          <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-end">
+            <a href="/cart" className="flex-shrink-0">
               <button
-                type="button"
                 className={`p-2 rounded-lg transition-colors ${
                   scrolled
                     ? "text-gray-900 hover:bg-gray-100"
                     : "text-white hover:bg-white/10"
                 }`}
-                onClick={() => setMobileMenuOpen(true)}
               >
-                <span className="sr-only">Open menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                <ShoppingCartIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               </button>
-            </div>
+            </a>
+
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              className={`lg:hidden p-2 rounded-lg transition-colors flex-shrink-0 ${
+                scrolled
+                  ? "text-gray-900 hover:bg-gray-100"
+                  : "text-white hover:bg-white/10"
+              }`}
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open menu</span>
+              <Bars3Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
+            </button>
           </div>
         </div>
       </nav>
@@ -132,8 +128,12 @@ export default function Navigation() {
                 transition={{ type: "spring", damping: 20 }}
               >
                 <div className="flex items-center justify-between">
-                  <a href="#" className="text-2xl font-bold text-gray-900">
-                    Personal Best
+                  <a href="/" className="flex items-center">
+                    <img
+                      src="/logo.png"
+                      alt="Personal Best"
+                      className="h-10 w-auto brightness-0"
+                    />
                   </a>
                   <button
                     type="button"

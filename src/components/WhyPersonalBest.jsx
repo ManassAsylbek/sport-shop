@@ -13,7 +13,7 @@ const features = [
     icon: BoltIcon,
     title: "Made for Movement",
     description:
-      "Designed to move with your body, never against it. Every stitch, every fabric choice, every cut is intentional.",
+      "Designed to move with your body, never against it. Every stitch, fabric choice, and cut is intentional.",
   },
   {
     icon: HeartIcon,

@@ -103,10 +103,11 @@ export default function FeaturedProducts() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {products.map((product) => (
-            <motion.div
+            <motion.a
               key={product.id}
+              href={`/product/${product.id}`}
               variants={itemVariants}
-              className="group cursor-pointer"
+              className="group cursor-pointer block"
             >
               <div className="relative overflow-hidden rounded-2xl bg-gray-100 mb-4 aspect-square">
                 <img
@@ -139,7 +140,7 @@ export default function FeaturedProducts() {
                   {product.price}
                 </p>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </motion.div>
 
@@ -150,7 +151,7 @@ export default function FeaturedProducts() {
           className="text-center mt-16"
         >
           <a
-            href="#shop"
+            href="/shop-men"
             className="inline-block px-8 py-4 bg-black text-white font-semibold rounded-lg text-lg hover:bg-gray-800 transition-colors duration-300"
           >
             View All Products

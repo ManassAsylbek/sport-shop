@@ -1,17 +1,107 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { useState, useEffect } from "react";
+
+const heroSlides = [
+  // {
+  //   type: "video",
+  //   src: "https://media.istockphoto.com/id/957904486/video/group-of-runners-running-up-the-mountain-slope-on-a-cloudy-day.mp4?s=mp4-640x640-is&k=20&c=vMdQKJR_fLOPqjTSjQvf3bKJMh5LKW4mZvJDqQW2QJs=",
+  //   alt: "Group of runners running up the mountain",
+  // },
+  // {
+  //   type: "video",
+  //   src: "https://media.istockphoto.com/id/1334147852/video/athletic-girl-doing-exercises-with-battle-ropes-during-her-cross-fitness-workout.mp4?s=mp4-640x640-is&k=20&c=XM_2tLjfUqO8yLJKT0vXZQ6TJx5d8x3Qv0vQqVdQqJs=",
+  //   alt: "Athletic girl doing exercises with battle ropes",
+  // },
+  // {
+  //   type: "video",
+  //   src: "https://media.istockphoto.com/id/2204447396/video/group-of-multiracial-friends-standing-in-outdoor-gym-looking-at-camera-with-serious.mp4?s=mp4-640x640-is&k=20&c=",
+  //   alt: "Multiracial group of athletes in outdoor gym",
+  // },
+  // {
+  //   type: "video",
+  //   src: "https://media.istockphoto.com/id/2154940886/video/front-view-of-young-muscular-man-training-with-battle-ropes-in-gym.mp4?s=mp4-640x640-is&k=20&c=",
+  //   alt: "Muscular man training with battle ropes",
+  // },
+
+  {
+    type: "image",
+    src: "/src/assets/abs.webp",
+    alt: "Athletes running up mountain trail - real people in motion",
+  },
+  {
+    type: "image",
+    src: "/src/assets/cross.webp",
+    alt: "Athletes training with battle ropes",
+  },
+  {
+    type: "image",
+    src: "/src/assets/yoga.webp",
+    alt: "yoga",
+  },
+];
 
 export default function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black">
-      {/* Background Image Overlay */}
+      {/* Background Image/Video Slider */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/60 z-10"></div>
-        <img
-          src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=2826&auto=format&fit=crop"
-          alt="Group of runners running up the mountain"
-          className="w-full h-full object-cover opacity-70"
-        />
+        <div className="absolute inset-0 bg-black/70 z-10"></div>
+
+        <AnimatePresence mode="wait">
+          {heroSlides[currentSlide].type === "image" ? (
+            <motion.img
+              key={currentSlide}
+              src={heroSlides[currentSlide].src}
+              alt={heroSlides[currentSlide].alt}
+              className="w-full h-full object-cover opacity-80"
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.8, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+            />
+          ) : (
+            <motion.video
+              key={currentSlide}
+              src={heroSlides[currentSlide].src}
+              className="w-full h-full object-cover opacity-80"
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.8, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? "bg-white w-8"
+                  : "bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Content */}
@@ -34,13 +124,13 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Performance-driven activewear designed for movement, comfort, and
-            everyday training.
+            Performance-driven activewear designed for real movement, real
+            comfort, and everyday training. Built for those who show up.
           </motion.p>
 
           <motion.div
@@ -50,7 +140,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <motion.a
-              href="#men"
+              href="/shop-men"
               className="group relative px-8 py-4 bg-white text-black font-semibold rounded-lg text-lg overflow-hidden transition-all duration-300 hover:scale-105 flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -61,7 +151,7 @@ export default function Hero() {
             </motion.a>
 
             <motion.a
-              href="#women"
+              href="/shop-women"
               className="group relative px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg text-lg overflow-hidden transition-all duration-300 hover:scale-105 flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

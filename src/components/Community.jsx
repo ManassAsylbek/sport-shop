@@ -106,7 +106,7 @@ export default function Community() {
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <a
-                href="#about"
+                href="/about"
                 className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg text-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Learn Our Story
