@@ -35,8 +35,8 @@ export default function CartPage() {
     if (newQuantity < 1) return;
     setCartItems(
       cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+        item.id === id ? { ...item, quantity: newQuantity } : item,
+      ),
     );
   };
 
@@ -55,7 +55,7 @@ export default function CartPage() {
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const discountAmount = subtotal * discount;
   const shipping = subtotal >= 100 ? 0 : 10;
@@ -68,6 +68,17 @@ export default function CartPage() {
         title="Shopping Cart | Personal Best Sportswear"
         description="Review your cart and checkout"
       />
+
+      {/* Hero Section
+      <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          ></motion.div>
+        </div>
+      </div> */}
 
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-32 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

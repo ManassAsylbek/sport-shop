@@ -54,6 +54,17 @@ export default function ProductPage() {
         description={product.description}
       />
 
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          ></motion.div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Images Section */}
@@ -139,12 +150,12 @@ export default function ProductPage() {
                         color.toLowerCase() === "white"
                           ? "#ffffff"
                           : color.toLowerCase() === "black"
-                          ? "#000000"
-                          : color.toLowerCase() === "navy"
-                          ? "#001f3f"
-                          : color.toLowerCase() === "grey"
-                          ? "#808080"
-                          : color.toLowerCase(),
+                            ? "#000000"
+                            : color.toLowerCase() === "navy"
+                              ? "#001f3f"
+                              : color.toLowerCase() === "grey"
+                                ? "#808080"
+                                : color.toLowerCase(),
                     }}
                     title={color}
                   />
