@@ -2,6 +2,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
 import { TrashIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "../components/CheckoutForm";
+
+// Replace with your actual Stripe publishable key
+const stripePromise = loadStripe("pk_test_51QdabKP8bE6U8uOH4h0gxgp4vS8YQC4OXGmQvJOCvS4h1VvWCpPnKvvFWTJJgcWN5tTxoCKvYxMKEGP4Z0QqaLRo00b8nOEbkO");
 
 const initialCartItems = [
   {
@@ -30,6 +36,7 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState(initialCartItems);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [showCheckout, setShowCheckout] = useState(false);
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
@@ -258,9 +265,37 @@ export default function CartPage() {
                       </p>
                     )}
 
-                    <button className="w-full px-8 py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-4">
-                      Proceed to Checkout
-                    </button>
+                    {!showCheckout ? (
+                      <button
+                        onClick={() => setShowCheckout(true)}
+                        className="w-full px-8 py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-4"
+                      >
+                        Proceed to Checkout
+                      </button>
+                    ) : (
+                      <div className="mb-4">
+                        <Elements stripe={stripePromise}>
+                          <CheckoutForm
+                            amount={total}
+                            onSuccess={(paymentMethod) => {
+                              console.log("Payment successful:", paymentMethod);
+                              // Handle successful payment
+                              setTimeout(() => {
+                                alert("Order placed successfully! 🎉");
+                                setCartItems([]);
+                                setShowCheckout(false);
+                              }, 2000);
+                            }}
+                          />
+                        </Elements>
+                        <button
+                          onClick={() => setShowCheckout(false)}
+                          className="w-full mt-4 text-gray-600 hover:text-gray-900 text-sm"
+                        >
+                          ← Back to cart
+                        </button>
+                      </div>
+                    )}
 
                     <a
                       href="/shop-men"
