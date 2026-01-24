@@ -132,7 +132,7 @@ export default function Footer() {
                   href="tel:+1234567890"
                   className="hover:text-white transition-colors"
                 >
-                  +1 (234) 567-890
+                  +1 (778)-834-3464
                 </a>
               </div>
             </motion.div>

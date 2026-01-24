@@ -120,7 +120,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Push Your
+            Go for your
             <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               Personal Best
             </span>
@@ -132,8 +132,8 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Performance-driven activewear designed for real movement, real
-            comfort, and everyday training. Built for those who show up.
+            Personal Best Sportswear is built for those who show up —to improve
+            themselves.
           </motion.p>
 
           <motion.div

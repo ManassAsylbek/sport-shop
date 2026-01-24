@@ -218,7 +218,7 @@ export default function AboutPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Push Your Personal Best?
+              Go for your Personal Best?
             </h2>
             <p className="text-xl text-gray-300 mb-8">
               Explore our collection of performance activewear designed for real

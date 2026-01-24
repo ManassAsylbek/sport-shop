@@ -110,7 +110,7 @@ export default function ContactPage() {
                       href="tel:+1234567890"
                       className="text-gray-600 hover:text-blue-600"
                     >
-                      +1 (234) 567-890
+                      +1 (778)-834-3464
                     </a>
                   </div>
                 </div>
