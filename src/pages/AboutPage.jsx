@@ -202,7 +202,7 @@ export default function AboutPage() {
               Join the Movement
             </h2>
             <p className="text-xl max-w-2xl mx-auto">
-              Be part of a community that values progress over perfection
+              Do Your Best. Be Your Best. Look Your Best.
             </p>
           </motion.div>
         </div>
