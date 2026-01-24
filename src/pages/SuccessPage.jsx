@@ -8,15 +8,15 @@ export default function SuccessPage() {
   const [orderData, setOrderData] = useState(null);
 
   useEffect(() => {
-    // Очищаем корзину после успешной оплаты
+    // Clear cart after successful payment
     clearCart();
 
-    // Получаем данные заказа из localStorage
-    const pendingOrder = localStorage.getItem("pending_order");
+    // Get order data from localStorage (set before Stripe redirect)
+    const pendingOrder = localStorage.getItem("pendingOrder");
     if (pendingOrder) {
       setOrderData(JSON.parse(pendingOrder));
-      // Очищаем данные заказа
-      localStorage.removeItem("pending_order");
+      // Clear pending order data
+      localStorage.removeItem("pendingOrder");
     }
   }, []);
 

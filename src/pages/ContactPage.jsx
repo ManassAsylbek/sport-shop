@@ -115,7 +115,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
+                {/* <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <ChatBubbleLeftRightIcon className="w-6 h-6 text-blue-600" />
                   </div>
@@ -125,7 +125,7 @@ export default function ContactPage() {
                     </h3>
                     <p className="text-gray-600">Mon-Fri, 9am-5pm EST</p>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">

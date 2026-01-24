@@ -1,24 +1,38 @@
-# Personal Best Sportswear - Landing Page
+# Personal Best Sportswear - E-commerce Store
 
-A beautiful, animated landing page for Personal Best Sportswear built with React, Tailwind CSS, and Framer Motion.
+A modern e-commerce store for sportswear built with React, featuring shopping cart, localStorage persistence, and Stripe payment integration.
 
 ## 🚀 Features
 
-- **Modern Design**: Clean, professional design with smooth animations
+- **Full Shopping Experience**: Browse products, add to cart, checkout
+- **Shopping Cart**: Persistent cart with localStorage
+- **Product Categories**: Men's and Women's activewear collections
+- **Stripe Payment Links**: Secure checkout without backend (see STRIPE_SETUP.md)
+- **Responsive Design**: Works perfectly on all devices
+- **Smooth Animations**: Framer Motion animations throughout
 - **SEO Optimized**: Meta tags, Open Graph, and Twitter Card support
-- **Responsive**: Fully responsive design that works on all devices
-- **Animations**: Smooth scroll animations using Framer Motion
-- **Performance**: Optimized images and lazy loading
-- **Accessibility**: ARIA labels and semantic HTML
+- **Performance**: Optimized images and fast loading
 
 ## 🛠 Technologies
 
 - **React 18**: Modern React with hooks
+- **React Router**: Client-side routing
 - **Vite**: Fast build tool and dev server
 - **Tailwind CSS v3**: Utility-first CSS framework
-- **Headless UI**: Unstyled, accessible UI components
-- **Heroicons**: Beautiful hand-crafted SVG icons
 - **Framer Motion**: Production-ready animation library
+- **Stripe Payment Links**: Payment processing without backend
+- **Surge**: Static site hosting
+
+## 💳 Payment Setup
+
+To enable real payments with Stripe:
+
+1. See detailed instructions in **STRIPE_SETUP.md**
+2. Create a Payment Link in your Stripe Dashboard
+3. Update `STRIPE_PAYMENT_LINK` in `src/pages/CartPage.jsx`
+4. Deploy and test with Stripe test cards
+
+Currently runs in demo mode - checkout redirects to success page without actual payment.
 
 ## 📦 Installation
 
@@ -55,18 +69,18 @@ npm run preview
 \`\`\`
 src/
 ├── components/
-│   ├── SEO.jsx              # SEO meta tags component
-│   ├── Navigation.jsx       # Header navigation with mobile menu
-│   ├── Hero.jsx             # Hero section with CTA buttons
-│   ├── BrandStatement.jsx   # Brand mission statement
-│   ├── FeaturedProducts.jsx # Product showcase grid
-│   ├── WhyPersonalBest.jsx  # Features and benefits
-│   ├── ShopByGender.jsx     # Men's and Women's sections
-│   ├── Community.jsx        # Community and lifestyle section
-│   └── Footer.jsx           # Footer with links and newsletter
-├── App.jsx                  # Main app component
-├── main.jsx                 # App entry point
-└── index.css                # Tailwind CSS imports
+│ ├── SEO.jsx # SEO meta tags component
+│ ├── Navigation.jsx # Header navigation with mobile menu
+│ ├── Hero.jsx # Hero section with CTA buttons
+│ ├── BrandStatement.jsx # Brand mission statement
+│ ├── FeaturedProducts.jsx # Product showcase grid
+│ ├── WhyPersonalBest.jsx # Features and benefits
+│ ├── ShopByGender.jsx # Men's and Women's sections
+│ ├── Community.jsx # Community and lifestyle section
+│ └── Footer.jsx # Footer with links and newsletter
+├── App.jsx # Main app component
+├── main.jsx # App entry point
+└── index.css # Tailwind CSS imports
 \`\`\`
 
 ## 🎨 Customization
@@ -78,6 +92,7 @@ Edit \`tailwind.config.js\` to customize the color scheme.
 ### Images
 
 Replace the Unsplash placeholder images with your own:
+
 - Update image URLs in each component
 - Place images in \`public/\` folder for static assets
 

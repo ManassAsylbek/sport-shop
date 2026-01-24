@@ -85,7 +85,7 @@ export default function Footer() {
             </motion.div>
 
             {/* Newsletter */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -107,7 +107,7 @@ export default function Footer() {
                   Subscribe
                 </button>
               </form>
-            </motion.div>
+            </motion.div> */}
 
             {/* Contact Info */}
             <motion.div

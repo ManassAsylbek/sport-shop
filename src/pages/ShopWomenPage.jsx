@@ -5,119 +5,16 @@ import {
   FunnelIcon,
   AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline";
-
-const products = [
-  {
-    id: 101,
-    name: "Essential Sports Bra",
-    price: 38,
-    image:
-      "https://images.unsplash.com/photo-1518310952931-b1de897abd40?q=80&w=2940&auto=format&fit=crop",
-    category: "Sports Bras",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Navy", "Rose", "White"],
-    activity: "Training",
-  },
-  {
-    id: 102,
-    name: "Performance Leggings",
-    price: 58,
-    image:
-      "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=2787&auto=format&fit=crop",
-    category: "Leggings",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Navy", "Burgundy", "Olive"],
-    activity: "Training",
-  },
-  {
-    id: 103,
-    name: "Crop Training Top",
-    price: 35,
-    image:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2820&auto=format&fit=crop",
-    category: "Tops",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "White", "Rose", "Mint"],
-    activity: "Training",
-  },
-  {
-    id: 104,
-    name: "Lightweight Running Tank",
-    price: 32,
-    image:
-      "https://images.unsplash.com/photo-1550345332-09e3ac987658?q=80&w=2787&auto=format&fit=crop",
-    category: "Tops",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Navy", "Coral", "Teal"],
-    activity: "Running",
-  },
-  {
-    id: 105,
-    name: "Relaxed Fit Hoodie",
-    price: 65,
-    image:
-      "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?q=80&w=2787&auto=format&fit=crop",
-    category: "Hoodies",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Grey", "Navy", "Cream"],
-    activity: "Lifestyle",
-  },
-  {
-    id: 106,
-    name: "High-Waist Training Shorts",
-    price: 42,
-    image:
-      "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2940&auto=format&fit=crop",
-    category: "Shorts",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Navy", "Sage", "Plum"],
-    activity: "Training",
-  },
-  {
-    id: 107,
-    name: "Seamless Long Sleeve",
-    price: 48,
-    image:
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2940&auto=format&fit=crop",
-    category: "Tops",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Nude", "Forest", "Dusty Pink"],
-    activity: "Training",
-  },
-  {
-    id: 108,
-    name: "7/8 Length Leggings",
-    price: 62,
-    image:
-      "https://images.unsplash.com/photo-1506634572416-48cdfe530110?q=80&w=2787&auto=format&fit=crop",
-    category: "Leggings",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Navy", "Charcoal", "Teal"],
-    activity: "Yoga",
-  },
-];
-
-const categories = [
-  "All",
-  "Sports Bras",
-  "Leggings",
-  "Tops",
-  "Hoodies",
-  "Shorts",
-];
-const activities = ["All", "Training", "Running", "Yoga", "Lifestyle"];
+import { womenProducts, womenCategories } from "../data/products";
 
 export default function ShopWomenPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedActivity, setSelectedActivity] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = womenProducts.filter((product) => {
     const categoryMatch =
       selectedCategory === "All" || product.category === selectedCategory;
-    const activityMatch =
-      selectedActivity === "All" || product.activity === selectedActivity;
-    return categoryMatch && activityMatch;
+    return categoryMatch;
   });
 
   return (
@@ -151,17 +48,17 @@ export default function ShopWomenPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 flex-wrap">
-              <button
+              {/* <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >
                 <FunnelIcon className="w-5 h-5" />
                 <span className="font-medium">Filters</span>
-              </button>
+              </button> */}
 
               {/* Category Tabs */}
               <div className="flex gap-2 overflow-x-auto">
-                {categories.map((category) => (
+                {womenCategories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
@@ -194,20 +91,20 @@ export default function ShopWomenPage() {
                 <div>
                   <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
                     <AdjustmentsHorizontalIcon className="w-4 h-4" />
-                    Activity Type
+                    Categories
                   </h3>
                   <div className="flex gap-2 flex-wrap">
-                    {activities.map((activity) => (
+                    {womenCategories.map((category) => (
                       <button
-                        key={activity}
-                        onClick={() => setSelectedActivity(activity)}
+                        key={category}
+                        onClick={() => setSelectedCategory(category)}
                         className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                          selectedActivity === activity
+                          selectedCategory === category
                             ? "bg-pink-600 text-white"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                         }`}
                       >
-                        {activity}
+                        {category}
                       </button>
                     ))}
                   </div>
@@ -272,12 +169,12 @@ export default function ShopWomenPage() {
                           color.toLowerCase() === "white"
                             ? "#ffffff"
                             : color.toLowerCase() === "black"
-                            ? "#000000"
-                            : color.toLowerCase() === "navy"
-                            ? "#001f3f"
-                            : color.toLowerCase() === "rose"
-                            ? "#ff007f"
-                            : color.toLowerCase(),
+                              ? "#000000"
+                              : color.toLowerCase() === "navy"
+                                ? "#001f3f"
+                                : color.toLowerCase() === "rose"
+                                  ? "#ff007f"
+                                  : color.toLowerCase(),
                       }}
                       title={color}
                     />

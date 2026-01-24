@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
 import {
@@ -10,42 +10,59 @@ import {
   ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
-
-const productData = {
-  1: {
-    name: "Performance Training T-Shirt",
-    price: 45,
-    images: [
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=2787&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=2787&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1605296867424-35fc25c9212a?q=80&w=2940&auto=format&fit=crop",
-    ],
-    description:
-      "Built for intense training sessions and everyday movement. This performance t-shirt features moisture-wicking fabric, 4-way stretch, and a comfortable athletic fit.",
-    features: [
-      "Moisture-wicking fabric keeps you dry",
-      "4-way stretch for unrestricted movement",
-      "Anti-odor technology",
-      "Flatlock seams prevent chafing",
-      "Athletic fit - not too tight, not too loose",
-    ],
-    fabric: "88% Polyester, 12% Elastane",
-    care: "Machine wash cold, tumble dry low",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Navy", "Grey", "White"],
-    forActivity: "Training, Running, Daily Wear",
-  },
-};
+import { getProductById } from "../data/products";
+import { addToCart } from "../utils/cartUtils";
 
 export default function ProductPage() {
   const { id } = useParams();
-  const product = productData[id] || productData[1];
+  const navigate = useNavigate();
+  const product = getProductById(id) || getProductById(1);
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("Black");
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    addToCart({
+      id: parseInt(id),
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      size: selectedSize,
+      color: selectedColor,
+      quantity: quantity,
+    });
+
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
+  };
+
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    addToCart({
+      id: parseInt(id),
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      size: selectedSize,
+      color: selectedColor,
+      quantity: quantity,
+    });
+
+    navigate("/cart");
+  };
 
   return (
     <>
@@ -218,11 +235,24 @@ export default function ProductPage() {
             {/* Add to Cart Button */}
             <div className="space-y-3">
               <button
+                onClick={handleAddToCart}
                 disabled={!selectedSize}
                 className="w-full py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 <ShoppingCartIcon className="w-5 h-5" />
-                {selectedSize ? "Add to Cart" : "Select a size"}
+                {addedToCart
+                  ? "Added to Cart! ✓"
+                  : selectedSize
+                    ? "Add to Cart"
+                    : "Select a size"}
+              </button>
+
+              <button
+                onClick={handleBuyNow}
+                disabled={!selectedSize}
+                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Buy Now
               </button>
             </div>
 

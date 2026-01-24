@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -6,6 +6,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
+import { getCartItemsCount } from "../utils/cartUtils";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -18,14 +19,32 @@ const navigation = [
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   // Handle scroll effect
-  useState(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Handle cart count updates
+  useEffect(() => {
+    setCartCount(getCartItemsCount());
+
+    const handleCartUpdate = () => {
+      setCartCount(getCartItemsCount());
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+    window.addEventListener("storage", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+      window.removeEventListener("storage", handleCartUpdate);
+    };
   }, []);
 
   return (
@@ -76,7 +95,7 @@ export default function Navigation() {
 
           {/* Right side - Cart & Mobile menu */}
           <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-end">
-            <a href="/cart" className="flex-shrink-0">
+            <a href="/cart" className="flex-shrink-0 relative">
               <button
                 className={`p-2 rounded-lg transition-colors ${
                   scrolled
@@ -85,6 +104,11 @@ export default function Navigation() {
                 }`}
               >
                 <ShoppingCartIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </button>
             </a>
 

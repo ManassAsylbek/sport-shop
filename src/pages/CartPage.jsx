@@ -1,54 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
 import { TrashIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "../components/CheckoutForm";
+import { useNavigate } from "react-router-dom";
+import {
+  getCartFromStorage,
+  removeFromCart as removeFromCartUtil,
+  updateCartItemQuantity,
+  calculateCartTotals,
+  clearCart,
+} from "../utils/cartUtils";
 
-// Replace with your actual Stripe publishable key
-const stripePromise = loadStripe("pk_test_51QdabKP8bE6U8uOH4h0gxgp4vS8YQC4OXGmQvJOCvS4h1VvWCpPnKvvFWTJJgcWN5tTxoCKvYxMKEGP4Z0QqaLRo00b8nOEbkO");
-
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Performance Training T-Shirt",
-    price: 45,
-    image:
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=2787&auto=format&fit=crop",
-    size: "L",
-    color: "Black",
-    quantity: 2,
-  },
-  {
-    id: 2,
-    name: "Performance Leggings",
-    price: 58,
-    image:
-      "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=2787&auto=format&fit=crop",
-    size: "M",
-    color: "Navy",
-    quantity: 1,
-  },
-];
+// Stripe Payment Link - замените на вашу ссылку из dashboard.stripe.com
+// Инструкция по настройке: см. STRIPE_SETUP.md
+const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_XXXXXXXX"; // Замените на вашу ссылку
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const [cartItems, setCartItems] = useState(() => getCartFromStorage());
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [showCheckout, setShowCheckout] = useState(false);
+  const navigate = useNavigate();
 
-  const updateQuantity = (id, newQuantity) => {
+  // Listen for cart updates from other components
+  useEffect(() => {
+    const handleCartUpdate = () => {
+      setCartItems(getCartFromStorage());
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+    window.addEventListener("storage", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+      window.removeEventListener("storage", handleCartUpdate);
+    };
+  }, []);
+
+  const updateQuantity = (cartId, newQuantity) => {
     if (newQuantity < 1) return;
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item,
-      ),
-    );
+    const updatedCart = updateCartItemQuantity(cartId, newQuantity);
+    setCartItems(updatedCart);
   };
 
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+  const removeItem = (cartId) => {
+    const updatedCart = removeFromCartUtil(cartId);
+    setCartItems(updatedCart);
   };
 
   const applyPromo = () => {
@@ -60,14 +56,44 @@ export default function CartPage() {
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
-  const discountAmount = subtotal * discount;
-  const shipping = subtotal >= 100 ? 0 : 10;
-  const tax = (subtotal - discountAmount) * 0.08;
-  const total = subtotal - discountAmount + shipping + tax;
+  const { subtotal, discountAmount, shipping, tax, total } =
+    calculateCartTotals(cartItems, discount);
+
+  const handleCheckout = () => {
+    // Save order info to localStorage before redirecting to Stripe
+    localStorage.setItem(
+      "pendingOrder",
+      JSON.stringify({
+        items: cartItems,
+        total: total,
+        discount: discount,
+        timestamp: Date.now(),
+      }),
+    );
+
+    // Check if Stripe Payment Link is configured
+    if (
+      STRIPE_PAYMENT_LINK &&
+      STRIPE_PAYMENT_LINK !== "https://buy.stripe.com/test_XXXXXXXX"
+    ) {
+      // Redirect to Stripe Payment Link for real payment
+      window.location.href = STRIPE_PAYMENT_LINK;
+    } else {
+      // Demo mode: redirect to success page without payment
+      // To enable real payments: Create Payment Link in Stripe Dashboard
+      // and replace STRIPE_PAYMENT_LINK at the top of this file
+      console.warn("⚠️ Stripe Payment Link not configured. Using demo mode.");
+      console.log("📖 See STRIPE_SETUP.md for configuration instructions");
+
+      clearCart();
+      navigate("/success", {
+        state: {
+          orderTotal: total,
+          orderItems: cartItems,
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -145,7 +171,7 @@ export default function CartPage() {
                               </p>
                             </div>
                             <button
-                              onClick={() => removeItem(item.id)}
+                              onClick={() => removeItem(item.cartId)}
                               className="p-2 text-gray-400 hover:text-red-600 transition-colors"
                             >
                               <TrashIcon className="w-5 h-5" />
@@ -157,7 +183,7 @@ export default function CartPage() {
                             <div className="flex items-center gap-3 bg-gray-100 rounded-lg p-1">
                               <button
                                 onClick={() =>
-                                  updateQuantity(item.id, item.quantity - 1)
+                                  updateQuantity(item.cartId, item.quantity - 1)
                                 }
                                 className="w-8 h-8 flex items-center justify-center hover:bg-white rounded transition-colors"
                               >
@@ -168,7 +194,7 @@ export default function CartPage() {
                               </span>
                               <button
                                 onClick={() =>
-                                  updateQuantity(item.id, item.quantity + 1)
+                                  updateQuantity(item.cartId, item.quantity + 1)
                                 }
                                 className="w-8 h-8 flex items-center justify-center hover:bg-white rounded transition-colors"
                               >
@@ -265,37 +291,19 @@ export default function CartPage() {
                       </p>
                     )}
 
-                    {!showCheckout ? (
-                      <button
-                        onClick={() => setShowCheckout(true)}
-                        className="w-full px-8 py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-4"
+                    <button
+                      onClick={handleCheckout}
+                      className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 mb-4 flex items-center justify-center gap-2"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
                       >
-                        Proceed to Checkout
-                      </button>
-                    ) : (
-                      <div className="mb-4">
-                        <Elements stripe={stripePromise}>
-                          <CheckoutForm
-                            amount={total}
-                            onSuccess={(paymentMethod) => {
-                              console.log("Payment successful:", paymentMethod);
-                              // Handle successful payment
-                              setTimeout(() => {
-                                alert("Order placed successfully! 🎉");
-                                setCartItems([]);
-                                setShowCheckout(false);
-                              }, 2000);
-                            }}
-                          />
-                        </Elements>
-                        <button
-                          onClick={() => setShowCheckout(false)}
-                          className="w-full mt-4 text-gray-600 hover:text-gray-900 text-sm"
-                        >
-                          ← Back to cart
-                        </button>
-                      </div>
-                    )}
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 21c-4.963 0-9-4.037-9-9s4.037-9 9-9 9 4.037 9 9-4.037 9-9 9zm-1.5-13.5h3v8h-3v-8zm0-3h3v2h-3v-2z" />
+                      </svg>
+                      Secure Checkout with Stripe
+                    </button>
 
                     <a
                       href="/shop-men"

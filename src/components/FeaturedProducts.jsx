@@ -1,57 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-
-const products = [
-  {
-    id: 1,
-    name: "Performance Training T-Shirt",
-    price: "$45",
-    image:
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=2787&auto=format&fit=crop",
-    category: "Men",
-  },
-  {
-    id: 2,
-    name: "Essential Sports Bra",
-    price: "$38",
-    image:
-      "https://images.unsplash.com/photo-1518310952931-b1de897abd40?q=80&w=2940&auto=format&fit=crop",
-    category: "Women",
-  },
-  {
-    id: 3,
-    name: "Training Shorts",
-    price: "$42",
-    image:
-      "https://images.unsplash.com/photo-1556906781-9cba4a95bc14?q=80&w=2787&auto=format&fit=crop",
-    category: "Men",
-  },
-  {
-    id: 4,
-    name: "Performance Leggings",
-    price: "$58",
-    image:
-      "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=2787&auto=format&fit=crop",
-    category: "Women",
-  },
-  {
-    id: 5,
-    name: "Training Hoodie",
-    price: "$68",
-    image:
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=2787&auto=format&fit=crop",
-    category: "Men",
-  },
-  {
-    id: 6,
-    name: "Athletic Tank Top",
-    price: "$35",
-    image:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2820&auto=format&fit=crop",
-    category: "Women",
-  },
-];
+import { featuredProducts } from "../data/products";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -102,7 +52,7 @@ export default function FeaturedProducts() {
           animate={isInView ? "visible" : "hidden"}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {products.map((product) => (
+          {featuredProducts.map((product) => (
             <motion.a
               key={product.id}
               href={`/product/${product.id}`}
@@ -137,7 +87,7 @@ export default function FeaturedProducts() {
                   </span>
                 </div>
                 <p className="text-xl font-bold text-gray-900">
-                  {product.price}
+                  ${product.price}
                 </p>
               </div>
             </motion.a>
