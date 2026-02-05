@@ -52,7 +52,7 @@ const communityImages = [
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&h=600&fit=crop",
+    src: "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=800&h=600&fit=crop",
     alt: "Diverse group of athletes warming up",
   },
   {

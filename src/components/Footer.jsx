@@ -11,8 +11,6 @@ const navigation = {
   company: [
     { name: "About Us", href: "/about" },
     { name: "Our Story", href: "/about" },
-    { name: "Sustainability", href: "/about" },
-    { name: "Community", href: "/" },
   ],
   support: [
     { name: "Contact", href: "/contact" },

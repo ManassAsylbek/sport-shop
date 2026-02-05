@@ -12,7 +12,7 @@ export default function Community() {
       alt: "Group running outdoors",
     },
     {
-      url: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2940&auto=format&fit=crop",
+      url: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop",
       alt: "Athletes training together",
     },
     {

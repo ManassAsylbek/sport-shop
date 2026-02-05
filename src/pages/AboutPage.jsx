@@ -220,10 +220,8 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Go for your Personal Best?
             </h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Explore our collection of performance activewear designed for real
-              movement.
-            </p>
+            Explore our collection of performance activewear designed for real
+            <p className="text-xl text-gray-300 mb-8">movement.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/shop-men"

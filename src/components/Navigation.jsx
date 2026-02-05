@@ -64,7 +64,7 @@ export default function Navigation() {
               <img
                 src="/logo.png"
                 alt="Personal Best"
-                className={`h-10 sm:h-12 md:h-14 lg:h-16 w-auto transition-all ${
+                className={`h-10 sm:h-14 md:h-16 lg:h-20 w-auto transition-all ${
                   scrolled ? "brightness-0" : "brightness-100"
                 }`}
               />

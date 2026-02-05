@@ -76,7 +76,6 @@ src/
 │ ├── FeaturedProducts.jsx # Product showcase grid
 │ ├── WhyPersonalBest.jsx # Features and benefits
 │ ├── ShopByGender.jsx # Men's and Women's sections
-│ ├── Community.jsx # Community and lifestyle section
 │ └── Footer.jsx # Footer with links and newsletter
 ├── App.jsx # Main app component
 ├── main.jsx # App entry point
@@ -107,8 +106,7 @@ Edit SEO settings in \`src/components/SEO.jsx\`
 3. **Featured Products**: 6-product grid with hover effects
 4. **Why Personal Best**: 4 key features with icons
 5. **Shop by Gender**: Split Men's/Women's sections
-6. **Community**: Lifestyle imagery and stats
-7. **Footer**: Links, newsletter signup, social media
+6. **Footer**: Links, newsletter signup, social media
 
 ## 🚀 Deployment
 

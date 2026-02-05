@@ -120,20 +120,18 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Go for your
             <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               Personal Best
             </span>
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-3xl md:text-4xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Personal Best Sportswear is built for those who show up —to improve
-            themselves.
+            Sport wear
           </motion.p>
 
           <motion.div

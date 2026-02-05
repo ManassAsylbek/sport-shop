@@ -6,8 +6,19 @@ export default function BrandStatement() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section className="py-24 bg-white" ref={ref}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section
+      className="py-32 md:py-40 relative overflow-hidden"
+      ref={ref}
+      style={{
+        backgroundImage: "url(/logo.png)",
+        backgroundSize: "20%",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#f9fafb",
+      }}
+    >
+      <div className="absolute inset-0 bg-white/40"></div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
