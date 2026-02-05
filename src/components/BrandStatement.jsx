@@ -6,19 +6,8 @@ export default function BrandStatement() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section
-      className="py-32 md:py-40 relative overflow-hidden"
-      ref={ref}
-      style={{
-        backgroundImage: "url(/logo.png)",
-        backgroundSize: "20%",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundColor: "#f9fafb",
-      }}
-    >
-      <div className="absolute inset-0 bg-white/40"></div>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <section className="pt-24 pb-6 bg-white" ref={ref}>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
@@ -47,6 +36,33 @@ export default function BrandStatement() {
           transition={{ duration: 1, delay: 0.5 }}
           className="mt-12 h-1 w-32 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto rounded-full"
         />
+
+        {/* Animated Logo */}
+        <motion.div
+          className="flex justify-center flex-1 lg:flex-1 mt-8"
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          animate={
+            isInView
+              ? { opacity: 1, y: 0, scale: 1 }
+              : { opacity: 0, y: 20, scale: 0.8 }
+          }
+          transition={{
+            duration: 0.8,
+            delay: 0.7,
+            type: "spring",
+            stiffness: 100,
+          }}
+        >
+          <motion.a
+            href="/"
+            className="flex items-center"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <img src="/logo.png" alt="Personal Best" className="h-52 w-auto" />
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   );

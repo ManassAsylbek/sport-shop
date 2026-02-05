@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
+import emailjs from "@emailjs/browser";
 import {
   EnvelopeIcon,
   PhoneIcon,
@@ -32,6 +33,7 @@ const faqs = [
 ];
 
 export default function ContactPage() {
+  const form = useRef();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,11 +41,33 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setSending(true);
+    setError("");
+
+    // Replace these with your EmailJS credentials from https://dashboard.emailjs.com
+    const SERVICE_ID = "YOUR_SERVICE_ID";
+    const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY).then(
+      (result) => {
+        console.log("Success:", result.text);
+        setSubmitted(true);
+        setSending(false);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => setSubmitted(false), 5000);
+      },
+      (error) => {
+        console.log("Error:", error.text);
+        setError("Failed to send message. Please try again.");
+        setSending(false);
+      },
+    );
   };
 
   return (
@@ -160,11 +184,17 @@ export default function ContactPage() {
 
               {submitted && (
                 <div className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg">
-                  Thank you! We'll get back to you within 24 hours.
+                  ✓ Thank you! We'll get back to you within 24 hours.
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="mb-6 p-4 bg-red-100 text-red-800 rounded-lg">
+                  ✗ {error}
+                </div>
+              )}
+
+              <form ref={form} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -172,6 +202,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="text"
+                      name="user_name"
                       required
                       value={formData.name}
                       onChange={(e) =>
@@ -188,6 +219,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="email"
+                      name="user_email"
                       required
                       value={formData.email}
                       onChange={(e) =>
@@ -205,6 +237,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     type="text"
+                    name="subject"
                     required
                     value={formData.subject}
                     onChange={(e) =>
@@ -221,6 +254,7 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     required
+                    name="message"
                     rows={6}
                     value={formData.message}
                     onChange={(e) =>
@@ -233,9 +267,10 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+                  disabled={sending}
+                  className="w-full px-8 py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {sending ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </motion.div>
