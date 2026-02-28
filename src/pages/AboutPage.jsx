@@ -77,23 +77,53 @@ export default function AboutPage() {
           </h2>
 
           <p className="text-xl text-gray-700 leading-relaxed mb-6">
-            We started Personal Best because we were tired of activewear brands
-            that prioritized style over substance, and hype over honest
-            performance. We wanted gear that actually worked — for real
-            training, real movement, and real life.
+            Personal Best Sportswear was born from a blend of passion,
+            perseverance, and a lifelong love of sport. While studying building
+            engineering, I was also a dedicated long-distance runner and soccer
+            player, As an athlete, I was always drawn to clothing that felt
+            comfortable, functional, and easy to move in—gear that truly
+            supported an active lifestyle.
           </p>
 
           <p className="text-xl text-gray-700 leading-relaxed mb-6">
-            Personal Best isn't about competing with others. It's about showing
-            up for yourself, consistently, day after day. It's about the
-            discipline to train when you don't feel like it. The commitment to
-            push a little further than yesterday. The respect you give yourself
-            when you follow through.
+            In July 1993, an opportunity arose when a small store in Deep Cove,
+            North Vancouver, became available for sale. Originally a children’s
+            clothing shop, it came with an affordable lease and ready-made
+            fixtures. With limited resources but a clear vision, I shifted the
+            focus to sports and activewear. Financing was a challenge, and I
+            worked tirelessly, often juggling long hours both in and out of the
+            store , to make it work. That marked the beginning of Personal Best
+            Sportswear.
           </p>
 
           <p className="text-xl text-gray-700 leading-relaxed">
-            That's what Personal Best means — not perfection, not comparison,
-            just progress. And we built our brand around that mindset.
+            In the early days, we carried well-known brands such as Adidas,
+            Puma, and Speedo. Within months, I introduced my own line, starting
+            with T-shirts and gradually expanding into hats, water bottles,
+            fleece jackets, and popular aerobic wear of the time, including
+            leggings and sports bras. For four years, our small shop proudly
+            served the community, supporting local races, sponsoring events, and
+            sharing the joy and spirit of sport.
+          </p>
+          <p className="text-xl text-gray-700 leading-relaxed">
+            By the late 1990s, the sportswear industry was changing rapidly.
+            Large chain retailers expanded across Canada, making it increasingly
+            difficult for small independent stores to compete. Although the
+            business provided steady income, growth was limited. At the same
+            time, I had taken on a demanding role as a project manager
+            overseeing the construction of an elementary school. With a heavy
+            heart, I made the difficult decision to close the store but I held
+            onto the name Personal Best Sportswear and the dream of one day
+            bringing it back.
+          </p>
+          <p className="text-xl text-gray-700 leading-relaxed">
+            Today, after more than 40 years of running, 13 marathons, two
+            ultramarathons, countless half-marathons, and races of every
+            distance, my passion for sport remains as strong as ever. Personal
+            Best Sportswear represents a lifelong commitment to movement,
+            discipline, and the meditative power of an active lifestyle. It’s my
+            way of sharing that dedication with others—and helping you reach
+            your own personal best.
           </p>
         </motion.div>
       </div>

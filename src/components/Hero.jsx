@@ -1,9 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
-import absImage from "../assets/abs.webp";
-import crossImage from "../assets/cross.webp";
-import yogaImage from "../assets/yoga.webp";
+import absImage from "../assets/strong-girl.webp";
+import crossImage from "../assets/cross-man.webp";
 
 const heroSlides = [
   // {
@@ -36,11 +35,6 @@ const heroSlides = [
     type: "image",
     src: crossImage,
     alt: "Athletes training with battle ropes",
-  },
-  {
-    type: "image",
-    src: yogaImage,
-    alt: "yoga",
   },
 ];
 
