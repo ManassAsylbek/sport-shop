@@ -13,7 +13,7 @@ import {
 
 // Stripe Payment Link - замените на вашу ссылку из dashboard.stripe.com
 // Инструкция по настройке: см. STRIPE_SETUP.md
-const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_XXXXXXXX"; // Замените на вашу ссылку
+// const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_XXXXXXXX";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState(() => getCartFromStorage());
@@ -60,39 +60,7 @@ export default function CartPage() {
     calculateCartTotals(cartItems, discount);
 
   const handleCheckout = () => {
-    // Save order info to localStorage before redirecting to Stripe
-    localStorage.setItem(
-      "pendingOrder",
-      JSON.stringify({
-        items: cartItems,
-        total: total,
-        discount: discount,
-        timestamp: Date.now(),
-      }),
-    );
-
-    // Check if Stripe Payment Link is configured
-    if (
-      STRIPE_PAYMENT_LINK &&
-      STRIPE_PAYMENT_LINK !== "https://buy.stripe.com/test_XXXXXXXX"
-    ) {
-      // Redirect to Stripe Payment Link for real payment
-      window.location.href = STRIPE_PAYMENT_LINK;
-    } else {
-      // Demo mode: redirect to success page without payment
-      // To enable real payments: Create Payment Link in Stripe Dashboard
-      // and replace STRIPE_PAYMENT_LINK at the top of this file
-      console.warn("⚠️ Stripe Payment Link not configured. Using demo mode.");
-      console.log("📖 See STRIPE_SETUP.md for configuration instructions");
-
-      clearCart();
-      navigate("/success", {
-        state: {
-          orderTotal: total,
-          orderItems: cartItems,
-        },
-      });
-    }
+    navigate("/checkout");
   };
 
   return (

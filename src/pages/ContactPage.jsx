@@ -49,10 +49,9 @@ export default function ContactPage() {
     setSending(true);
     setError("");
 
-    // Replace these with your EmailJS credentials from https://dashboard.emailjs.com
-    const SERVICE_ID = "YOUR_SERVICE_ID";
-    const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
-    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+    const SERVICE_ID = "service_eijleuq";
+    const TEMPLATE_ID = "template_uh5d39i";
+    const PUBLIC_KEY = "JIGcFIf6Drom3P3Au";
 
     emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY).then(
       (result) => {
@@ -78,7 +77,7 @@ export default function ContactPage() {
       />
 
       {/* Hero */}
-      <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-20">
+      <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white pt-28 pb-7">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -202,7 +201,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="text"
-                      name="user_name"
+                      name="name"
                       required
                       value={formData.name}
                       onChange={(e) =>
@@ -219,7 +218,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="email"
-                      name="user_email"
+                      name="email"
                       required
                       value={formData.email}
                       onChange={(e) =>
@@ -237,7 +236,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     type="text"
-                    name="subject"
+                    name="title"
                     required
                     value={formData.subject}
                     onChange={(e) =>

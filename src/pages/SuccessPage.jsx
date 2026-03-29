@@ -27,7 +27,7 @@ export default function SuccessPage() {
         description="Your order has been placed successfully"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 pt-32 pb-12">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-32 pb-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -93,13 +93,13 @@ export default function SuccessPage() {
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-600">Subtotal</span>
                       <span className="text-gray-900">
-                        ${orderData.subtotal.toFixed(2)}
+                        ${(orderData.subtotal ?? orderData.total)?.toFixed(2)}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-600">Shipping</span>
                       <span className="text-gray-900">
-                        {orderData.shipping === 0
+                        {!orderData.shipping
                           ? "FREE"
                           : `$${orderData.shipping.toFixed(2)}`}
                       </span>
@@ -107,13 +107,13 @@ export default function SuccessPage() {
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-600">Tax</span>
                       <span className="text-gray-900">
-                        ${orderData.tax.toFixed(2)}
+                        ${(orderData.tax ?? 0).toFixed(2)}
                       </span>
                     </div>
                     <div className="flex justify-between text-lg font-bold border-t pt-3 mt-3">
                       <span className="text-gray-900">Total</span>
                       <span className="text-green-600">
-                        ${orderData.total.toFixed(2)}
+                        ${(orderData.total ?? 0).toFixed(2)}
                       </span>
                     </div>
                   </div>
