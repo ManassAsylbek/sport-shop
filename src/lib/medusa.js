@@ -137,19 +137,24 @@ export async function getCart(cartId) {
   return data.cart;
 }
 
-// Initialize payment sessions
-export async function initPaymentSessions(cartId) {
-  const data = await storePost(`/store/carts/${cartId}/payment-sessions`);
-  return data.cart;
+// Medusa v2: Create or get payment collection for a cart
+export async function initPaymentCollection(cartId) {
+  const data = await storePost(`/store/payment-collections`, {
+    cart_id: cartId,
+  });
+  return data.payment_collection;
 }
 
-// Select payment session provider
-export async function selectPaymentSession(cartId, providerId) {
+// Medusa v2: Create payment session (e.g. Stripe) inside a payment collection
+export async function createPaymentSession(
+  paymentCollectionId,
+  providerId = "pp_stripe_stripe",
+) {
   const data = await storePost(
-    `/store/carts/${cartId}/payment-sessions/${providerId}`,
-    {},
+    `/store/payment-collections/${paymentCollectionId}/payment-sessions`,
+    { provider_id: providerId },
   );
-  return data.cart;
+  return data.payment_collection;
 }
 
 // Complete cart (finalize order)

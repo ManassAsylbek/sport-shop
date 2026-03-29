@@ -17,8 +17,8 @@ import {
   createCart,
   addItemToMedusaCart,
   updateCart,
-  initPaymentSessions,
-  selectPaymentSession,
+  initPaymentCollection,
+  createPaymentSession,
   completeCart,
   BASE_URL,
   API_KEY,
@@ -105,37 +105,47 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
         },
       });
 
-      // 4. Initialize payment sessions
-      const cartWithSessions = await initPaymentSessions(cartId);
+      // 4. Create payment collection for cart (Medusa v2)
+      const paymentCollection = await initPaymentCollection(cartId);
+      console.log("[Medusa] Payment collection:", paymentCollection?.id);
+
+      // 5. Create payment session with Stripe provider
+      const updatedCollection = await createPaymentSession(
+        paymentCollection.id,
+        "pp_stripe_stripe",
+      );
+      const paymentSession = updatedCollection?.payment_sessions?.[0];
+      const clientSecret = paymentSession?.data?.client_secret;
       console.log(
-        "[Medusa] Payment sessions:",
-        cartWithSessions?.payment_sessions,
+        "[Medusa] Payment session:",
+        paymentSession?.id,
+        "client_secret:",
+        clientSecret ? "✓" : "MISSING",
       );
 
-      // 5. Select Stripe as payment provider
-      const stripeProviderId =
-        cartWithSessions?.payment_sessions?.find((s) =>
-          s.provider_id?.includes("stripe"),
-        )?.provider_id || "pp_stripe_stripe";
-      await selectPaymentSession(cartId, stripeProviderId);
-      console.log("[Medusa] Selected provider:", stripeProviderId);
+      if (!clientSecret) {
+        throw new Error(
+          "No client_secret returned from payment session. Check Stripe configuration.",
+        );
+      }
 
-      // 6. Create Stripe PaymentMethod
+      // 6. Confirm the card with Stripe using the PaymentIntent client_secret
       const cardElement = elements.getElement(CardElement);
-      const { error: stripeError, paymentMethod } =
-        await stripe.createPaymentMethod({
-          type: "card",
-          card: cardElement,
-          billing_details: {
-            name: `${firstName} ${lastName}`,
-            email,
-            phone,
-            address: {
-              line1: address,
-              city,
-              state: province,
-              postal_code: postalCode,
-              country,
+      const { error: stripeError, paymentIntent } =
+        await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: `${firstName} ${lastName}`,
+              email,
+              phone,
+              address: {
+                line1: address,
+                city,
+                state: province,
+                postal_code: postalCode,
+                country,
+              },
             },
           },
         });
@@ -145,22 +155,14 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
         setProcessing(false);
         return;
       }
-      console.log("[Stripe] PaymentMethod created:", paymentMethod.id);
+      console.log(
+        "[Stripe] PaymentIntent confirmed:",
+        paymentIntent.id,
+        "status:",
+        paymentIntent.status,
+      );
 
-      // 7. Update cart with Stripe payment method id
-      await fetch(`${BASE_URL}/store/carts/${cartId}/payment-session`, {
-        method: "POST",
-        headers: {
-          "x-publishable-api-key": API_KEY,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          provider_id: stripeProviderId,
-          data: { payment_method: paymentMethod.id },
-        }),
-      });
-
-      // 8. Complete cart → creates order in Medusa
+      // 7. Complete cart → creates order in Medusa
       const result = await completeCart(cartId);
       console.log("[Medusa] completeCart result:", result);
 
@@ -180,7 +182,7 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
           shipping,
           tax,
           total,
-          paymentMethodId: paymentMethod.id,
+          paymentMethodId: paymentIntent?.payment_method,
           orderId: result?.data?.id,
           timestamp: Date.now(),
         }),
