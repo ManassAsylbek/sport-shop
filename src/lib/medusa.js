@@ -1,5 +1,5 @@
-const BASE_URL = "https://api.personalbestsportswear.com";
-const API_KEY =
+export const BASE_URL = "https://api.personalbestsportswear.com";
+export const API_KEY =
   "pk_e1705eef1255644d3fd81e5b4bcab72e88a9d8f2a6040e4f6ebefd4a8beb1876";
 
 const PRODUCT_FIELDS =
@@ -127,6 +127,15 @@ export async function getCart(cartId) {
 // Initialize payment sessions
 export async function initPaymentSessions(cartId) {
   const data = await storePost(`/store/carts/${cartId}/payment-sessions`);
+  return data.cart;
+}
+
+// Select payment session provider
+export async function selectPaymentSession(cartId, providerId) {
+  const data = await storePost(
+    `/store/carts/${cartId}/payment-sessions/${providerId}`,
+    {},
+  );
   return data.cart;
 }
 

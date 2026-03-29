@@ -18,7 +18,10 @@ import {
   addItemToMedusaCart,
   updateCart,
   initPaymentSessions,
+  selectPaymentSession,
   completeCart,
+  BASE_URL,
+  API_KEY,
 } from "../lib/medusa";
 
 const stripePromise = loadStripe(
@@ -102,9 +105,21 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
       });
 
       // 4. Initialize payment sessions
-      await initPaymentSessions(cartId);
+      const cartWithSessions = await initPaymentSessions(cartId);
+      console.log(
+        "[Medusa] Payment sessions:",
+        cartWithSessions?.payment_sessions,
+      );
 
-      // 5. Confirm card payment with Stripe
+      // 5. Select Stripe as payment provider
+      const stripeProviderId =
+        cartWithSessions?.payment_sessions?.find((s) =>
+          s.provider_id?.includes("stripe"),
+        )?.provider_id || "pp_stripe_stripe";
+      await selectPaymentSession(cartId, stripeProviderId);
+      console.log("[Medusa] Selected provider:", stripeProviderId);
+
+      // 6. Create Stripe PaymentMethod
       const cardElement = elements.getElement(CardElement);
       const { error: stripeError, paymentMethod } =
         await stripe.createPaymentMethod({
@@ -129,15 +144,32 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
         setProcessing(false);
         return;
       }
+      console.log("[Stripe] PaymentMethod created:", paymentMethod.id);
 
-      // 6. Complete the order
-      try {
-        await completeCart(cartId);
-      } catch {
-        // Cart completion may fail in dev/test, proceed to success anyway
+      // 7. Update cart with Stripe payment method id
+      await fetch(`${BASE_URL}/store/carts/${cartId}/payment-session`, {
+        method: "POST",
+        headers: {
+          "x-publishable-api-key": API_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          provider_id: stripeProviderId,
+          data: { payment_method: paymentMethod.id },
+        }),
+      });
+
+      // 8. Complete cart → creates order in Medusa
+      const result = await completeCart(cartId);
+      console.log("[Medusa] completeCart result:", result);
+
+      if (result?.type === "order") {
+        console.log("[Medusa] Order created! ID:", result.data?.id);
+      } else {
+        console.warn("[Medusa] Unexpected completeCart response:", result);
       }
 
-      // 7. Success! Clear cart and redirect
+      // 9. Success! Clear cart and redirect
       clearCart();
       localStorage.setItem(
         "pendingOrder",
@@ -148,6 +180,7 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
           tax,
           total,
           paymentMethodId: paymentMethod.id,
+          orderId: result?.data?.id,
           timestamp: Date.now(),
         }),
       );
@@ -155,42 +188,9 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
         state: { orderTotal: total, orderItems: cartItems },
       });
     } catch (err) {
-      console.error("Checkout error:", err);
-      // Fallback: if Medusa cart fails, still process via Stripe directly
-      const cardElement = elements.getElement(CardElement);
-      const { error: stripeError, paymentMethod } =
-        await stripe.createPaymentMethod({
-          type: "card",
-          card: cardElement,
-          billing_details: {
-            name: `${firstName} ${lastName}`,
-            email,
-          },
-        });
-
-      if (stripeError) {
-        setError(stripeError.message);
-        setProcessing(false);
-        return;
-      }
-
-      // Payment method created successfully — treat as success for test mode
-      clearCart();
-      localStorage.setItem(
-        "pendingOrder",
-        JSON.stringify({
-          items: cartItems,
-          subtotal,
-          shipping,
-          tax,
-          total,
-          paymentMethodId: paymentMethod.id,
-          timestamp: Date.now(),
-        }),
-      );
-      navigate("/success", {
-        state: { orderTotal: total, orderItems: cartItems },
-      });
+      console.error("[Checkout] Error:", err);
+      setError(err.message || "Something went wrong. Please try again.");
+      setProcessing(false);
     }
   };
 
@@ -321,11 +321,7 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
       <button
         type="submit"
         disabled={!stripe || processing}
-        className={`w-full py-4 rounded-lg font-semibold text-lg transition-all ${
-          !stripe || processing
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-black text-white hover:bg-gray-800"
-        }`}
+        className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 mb-4 flex items-center justify-center gap-2"
       >
         {processing ? (
           <span className="flex items-center justify-center gap-2">
@@ -378,9 +374,9 @@ export default function CheckoutPage() {
         description="Complete your purchase"
       />
 
-      <div className="min-h-screen bg-gray-50 pt-24 pb-12">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-32 pb-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+          <h1 className="text-3xl font-bold text-white mb-8">Checkout</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Left: Form */}
