@@ -2,6 +2,19 @@ export const BASE_URL = "https://api.personalbestsportswear.com";
 export const API_KEY =
   "pk_e1705eef1255644d3fd81e5b4bcab72e88a9d8f2a6040e4f6ebefd4a8beb1876";
 
+// Fix Medusa image URLs — add /static/ prefix if missing
+export function getImageUrl(url) {
+  if (!url) return null;
+  if (url.includes("/static/")) return url;
+  return url.replace(/^(https?:\/\/[^/]+)\//, "$1/static/");
+}
+
+// Get best image URL from a product object
+export function getProductImageUrl(product) {
+  const url = product?.thumbnail || product?.images?.[0]?.url || null;
+  return getImageUrl(url);
+}
+
 const PRODUCT_FIELDS =
   "id,title,handle,description,subtitle,thumbnail,*images,status," +
   "material,weight,length,height,width,origin_country,hs_code,mid_code,metadata,type," +

@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProducts } from "../lib/medusa";
+import { getProducts, getImageUrl } from "../lib/medusa";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -26,9 +26,8 @@ const itemVariants = {
 };
 
 function getProductImage(product) {
-  if (product.thumbnail) return product.thumbnail;
-  if (product.images?.length > 0) return product.images[0].url;
-  return null;
+  const url = product?.thumbnail || product?.images?.[0]?.url || null;
+  return getImageUrl(url);
 }
 
 function getProductPrice(product) {

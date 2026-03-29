@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
-import { getProductsByCollection } from "../lib/medusa";
+import { getProductsByCollection, getImageUrl } from "../lib/medusa";
 
 const womenCategories = ["All", "Tops", "Bottoms", "Outerwear", "Sets"];
 
@@ -136,7 +136,9 @@ export default function ShopWomenPage() {
                 <div className="relative overflow-hidden rounded-2xl bg-gray-100 mb-4 aspect-square">
                   {product.thumbnail || product.images?.[0]?.url ? (
                     <img
-                      src={product.thumbnail || product.images[0].url}
+                      src={getImageUrl(
+                        product.thumbnail || product.images[0].url,
+                      )}
                       alt={product.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />

@@ -10,6 +10,7 @@ import {
   calculateCartTotals,
   clearCart,
 } from "../utils/cartUtils";
+import { getImageUrl } from "../lib/medusa";
 
 // Stripe Payment Link - замените на вашу ссылку из dashboard.stripe.com
 // Инструкция по настройке: см. STRIPE_SETUP.md
@@ -121,7 +122,7 @@ export default function CartPage() {
                         {/* Image */}
                         <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                           <img
-                            src={item.image}
+                            src={getImageUrl(item.image)}
                             alt={item.name}
                             className="w-full h-full object-cover"
                           />

@@ -11,7 +11,7 @@ import {
   TagIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
-import { getProductByHandle } from "../lib/medusa";
+import { getProductByHandle, getImageUrl } from "../lib/medusa";
 import { addToCart } from "../utils/cartUtils";
 
 /* ─── helpers ─── */
@@ -101,9 +101,9 @@ export default function ProductPage() {
   }, [id]);
 
   const images = product?.images?.length
-    ? product.images.map((img) => img.url)
+    ? product.images.map((img) => getImageUrl(img.url))
     : product?.thumbnail
-      ? [product.thumbnail]
+      ? [getImageUrl(product.thumbnail)]
       : [];
 
   const sizes = getSizes(product);

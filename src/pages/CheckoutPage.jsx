@@ -22,6 +22,7 @@ import {
   completeCart,
   BASE_URL,
   API_KEY,
+  getImageUrl,
 } from "../lib/medusa";
 
 const stripePromise = loadStripe(
@@ -403,7 +404,7 @@ export default function CheckoutPage() {
                       <div className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
                         {item.image ? (
                           <img
-                            src={item.image}
+                            src={getImageUrl(item.image)}
                             alt={item.name}
                             className="w-full h-full object-cover"
                           />
