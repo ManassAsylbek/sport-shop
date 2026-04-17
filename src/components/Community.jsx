@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import strongGirl from "../assets/strong-girl.webp";
+import yoga from "../assets/yoga.webp";
+import man from "../assets/man.webp";
 
 export default function Community() {
   const ref = useRef(null);
@@ -8,15 +11,15 @@ export default function Community() {
 
   const communityImages = [
     {
-      url: "/src/assets/strong-girl.webp",
+      url: strongGirl,
       alt: "Group running outdoors",
     },
     {
-      url: "/src/assets/yoga.webp",
+      url: yoga,
       alt: "Athletes training together",
     },
     {
-      url: "/src/assets/man.webp",
+      url: man,
       alt: "Person stretching",
     },
   ];
