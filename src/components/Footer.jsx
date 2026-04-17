@@ -34,7 +34,7 @@ const navigation = {
     },
     {
       name: "Facebook",
-      href: "https://www.facebook.com/profile.php?id=61587479165510",
+      href: "https://www.facebook.com/people/Personal-Best-Sportwear/61572359684358/",
       icon: (props) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
