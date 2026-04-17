@@ -26,7 +26,7 @@ import {
 } from "../lib/medusa";
 
 const stripePromise = loadStripe(
-  "pk_test_51T7dydFPYGyTNPd1ZBrX0RmqQo1rPANtYjp2Goeod3c1TsX1HUQGVVBYU9KdOOlVtidQbZQpCBlta9HSraY9gk1800gaj30x8C",
+  "pk_live_51T7dydFPYGyTNPd1mf5hatQNZ4X8bz9dCeoVrA9kTV32fvkEtzauNEGpgrrudf1kHZEHEoy2rAMbXTN2JlunzfSU00WbTKM7fg",
 );
 
 const CARD_ELEMENT_OPTIONS = {

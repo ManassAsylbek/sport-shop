@@ -8,15 +8,15 @@ export default function Community() {
 
   const communityImages = [
     {
-      url: "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=2826&auto=format&fit=crop",
+      url: "/src/assets/strong-girl.webp",
       alt: "Group running outdoors",
     },
     {
-      url: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop",
+      url: "/src/assets/yoga.webp",
       alt: "Athletes training together",
     },
     {
-      url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2940&auto=format&fit=crop",
+      url: "/src/assets/man.webp",
       alt: "Person stretching",
     },
   ];

@@ -243,7 +243,7 @@ export default function CartPage() {
                       </div>
 
                       <div className="flex justify-between text-gray-600">
-                        <span>Tax (8%)</span>
+                        <span>Tax (12%)</span>
                         <span>${tax.toFixed(2)}</span>
                       </div>
                     </div>

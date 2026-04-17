@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
-import { getProductsByCollection, getImageUrl } from "../lib/medusa";
-
-const womenCategories = ["All", "Tops", "Bottoms", "Outerwear", "Sets"];
+import {
+  getProductsByCollection,
+  getImageUrl,
+  getCategories,
+} from "../lib/medusa";
 
 function getCategoryFromProduct(product) {
   if (!product.categories || product.categories.length === 0) return "Other";
@@ -31,12 +33,15 @@ function getPrice(product) {
 export default function ShopWomenPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(["All"]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProductsByCollection("womens-collection")
-      .then((data) => {
-        setProducts(data);
+    Promise.all([getProductsByCollection("womens-collection"), getCategories()])
+      .then(([productsData, categoriesData]) => {
+        setProducts(productsData);
+        const names = ["All", ...categoriesData.map((c) => c.name)];
+        setCategories(names);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -88,7 +93,7 @@ export default function ShopWomenPage() {
 
               {/* Category Tabs */}
               <div className="flex gap-2 overflow-x-auto">
-                {womenCategories.map((category) => (
+                {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}

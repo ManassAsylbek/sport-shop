@@ -261,7 +261,7 @@ export default function ProductPage() {
                 <img
                   src={images[selectedImage]}
                   alt={product.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-200">

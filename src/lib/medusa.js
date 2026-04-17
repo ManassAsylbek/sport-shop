@@ -96,6 +96,14 @@ export async function getProductByHandle(handle) {
   return data.products?.[0] || null;
 }
 
+// Get all product categories
+export async function getCategories() {
+  const data = await storeGet("/store/product-categories", {
+    limit: 100,
+  });
+  return data.product_categories || [];
+}
+
 // ==========================================
 // Cart & Checkout API
 // ==========================================

@@ -47,22 +47,22 @@ const testimonials = [
 const communityImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop",
+    src: "/src/assets/abs.webp",
     alt: "Athletes training with battle ropes",
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=800&h=600&fit=crop",
+    src: "/src/assets/yoga.webp",
     alt: "Diverse group of athletes warming up",
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop",
+    src: "/src/assets/girls.webp",
     alt: "Runner on mountain trail at sunrise",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&h=600&fit=crop",
+    src: "/src/assets/man.webp",
     alt: "Group running up mountain trail",
   },
 ];
