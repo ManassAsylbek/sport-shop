@@ -1,5 +1,9 @@
 import { motion } from "framer-motion";
 import { StarIcon } from "@heroicons/react/24/solid";
+import abs from "../assets/abs.webp";
+import yoga from "../assets/yoga.webp";
+import girls from "../assets/girls.webp";
+import man from "../assets/man.webp";
 
 const testimonials = [
   {
@@ -47,22 +51,22 @@ const testimonials = [
 const communityImages = [
   {
     id: 1,
-    src: "/src/assets/abs.webp",
+    src: abs,
     alt: "Athletes training with battle ropes",
   },
   {
     id: 2,
-    src: "/src/assets/yoga.webp",
+    src: yoga,
     alt: "Diverse group of athletes warming up",
   },
   {
     id: 3,
-    src: "/src/assets/girls.webp",
+    src: girls,
     alt: "Runner on mountain trail at sunrise",
   },
   {
     id: 4,
-    src: "/src/assets/man.webp",
+    src: man,
     alt: "Group running up mountain trail",
   },
 ];
