@@ -195,7 +195,7 @@ export default function CartPage() {
                     </h2>
 
                     {/* Promo Code */}
-                    <div className="mb-6">
+                    {/* <div className="mb-6">
                       <label className="block text-sm font-semibold text-gray-900 mb-2">
                         Promo Code
                       </label>
@@ -219,7 +219,7 @@ export default function CartPage() {
                           ✓ Promo applied: 10% off
                         </p>
                       )}
-                    </div>
+                    </div> */}
 
                     {/* Price Breakdown */}
                     <div className="space-y-3 py-4 border-t border-b border-gray-200">
