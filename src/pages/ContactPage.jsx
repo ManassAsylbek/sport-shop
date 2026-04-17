@@ -159,9 +159,8 @@ export default function ContactPage() {
                       Address
                     </h3>
                     <p className="text-gray-600">
-                      123 Performance Way
-                      <br />
-                      Los Angeles, CA 90001
+                      644 West 17 Th Street <br /> North Vancouver BC <br />
+                      Canada
                     </p>
                   </div>
                 </div>
