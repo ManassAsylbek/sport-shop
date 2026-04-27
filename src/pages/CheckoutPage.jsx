@@ -17,6 +17,8 @@ import {
   createCart,
   addItemToMedusaCart,
   updateCart,
+  getShippingOptions,
+  addShippingMethod,
   initPaymentCollection,
   createPaymentSession,
   completeCart,
@@ -56,7 +58,7 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
   const [postalCode, setPostalCode] = useState("");
-  const [country, setCountry] = useState("us");
+  const [country, setCountry] = useState("ca");
   const [phone, setPhone] = useState("");
 
   const handleSubmit = async (e) => {
@@ -105,11 +107,28 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
         },
       });
 
-      // 4. Create payment collection for cart (Medusa v2)
-      const paymentCollection = await initPaymentCollection(cartId);
+      // 4. Add shipping method to cart (free shipping over $100)
+      const shippingOptions = await getShippingOptions(cartId);
+      if (shippingOptions.length > 0) {
+        // Pick free shipping option if subtotal >= 100, otherwise standard
+        const freeOption = shippingOptions.find((o) =>
+          o.name?.toLowerCase().includes("free")
+        );
+        const standardOption = shippingOptions.find((o) =>
+          !o.name?.toLowerCase().includes("free")
+        );
+        const selectedOption =
+          subtotal >= 100 && freeOption ? freeOption : (standardOption || shippingOptions[0]);
+        await addShippingMethod(cartId, selectedOption.id);
+        console.log("[Medusa] Shipping method added:", selectedOption.name);
+      }
+
+      // 6. Create payment collection with correct total (subtotal + shipping + tax)
+      const totalInCents = Math.round(total * 100);
+      const paymentCollection = await initPaymentCollection(cartId, totalInCents);
       console.log("[Medusa] Payment collection:", paymentCollection?.id);
 
-      // 5. Create payment session with Stripe provider
+      // 7. Create payment session with Stripe provider
       const updatedCollection = await createPaymentSession(
         paymentCollection.id,
         "pp_stripe_stripe",
@@ -127,6 +146,21 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
         throw new Error(
           "No client_secret returned from payment session. Check Stripe configuration.",
         );
+      }
+
+      // Update PaymentIntent amount to match frontend total (subtotal + shipping + tax)
+      const piId = clientSecret.split("_secret_")[0];
+      try {
+        await fetch(`${BASE_URL}/store/payment-intents/${piId}`, {
+          method: "POST",
+          headers: {
+            "x-publishable-api-key": API_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount: totalInCents }),
+        });
+      } catch {
+        console.warn("[Stripe] Could not update PaymentIntent amount, proceeding with original amount");
       }
 
       // 6. Confirm the card with Stripe using the PaymentIntent client_secret

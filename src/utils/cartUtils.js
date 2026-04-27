@@ -93,7 +93,7 @@ export const calculateCartTotals = (cart, discount = 0) => {
   );
   const discountAmount = subtotal * discount;
   const shipping = subtotal >= 100 ? 0 : 10;
-  const tax = (subtotal - discountAmount) * 0.12; // 12% tax
+  const tax = (subtotal - discountAmount + shipping) * 0.12; // 12% tax on subtotal + shipping (matches Medusa)
   const total = subtotal - discountAmount + shipping + tax;
 
   return {

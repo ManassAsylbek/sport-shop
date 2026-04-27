@@ -165,6 +165,20 @@ export async function createPaymentSession(
   return data.payment_collection;
 }
 
+// Get shipping options for a cart
+export async function getShippingOptions(cartId) {
+  const data = await storeGet(`/store/shipping-options`, { cart_id: cartId });
+  return data.shipping_options || [];
+}
+
+// Add shipping method to cart
+export async function addShippingMethod(cartId, shippingOptionId) {
+  const data = await storePost(`/store/carts/${cartId}/shipping-methods`, {
+    option_id: shippingOptionId,
+  });
+  return data.cart;
+}
+
 // Complete cart (finalize order)
 export async function completeCart(cartId) {
   const data = await storePost(`/store/carts/${cartId}/complete`);

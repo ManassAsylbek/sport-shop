@@ -36,12 +36,12 @@ function getProductPrice(product) {
   const cp = variant.calculated_price;
   if (cp) {
     const amt = cp.calculated_amount ?? cp.original_amount;
-    if (amt != null) return (amt / 100).toFixed(2);
+    if (amt != null) return (amt).toFixed(2);
   }
   if (variant.prices?.length) {
     const usd = variant.prices.find((p) => p.currency_code === "usd");
     const pick = usd || variant.prices[0];
-    if (pick?.amount != null) return (pick.amount / 100).toFixed(2);
+    if (pick?.amount != null) return (pick.amount).toFixed(2);
   }
   return null;
 }

@@ -8,7 +8,6 @@ import {
   removeFromCart as removeFromCartUtil,
   updateCartItemQuantity,
   calculateCartTotals,
-  clearCart,
 } from "../utils/cartUtils";
 import { getImageUrl } from "../lib/medusa";
 
