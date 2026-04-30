@@ -9,10 +9,12 @@ import {
   ArrowPathIcon,
   ShieldCheckIcon,
   TagIcon,
+  ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { getProductByHandle, getImageUrl } from "../lib/medusa";
 import { addToCart } from "../utils/cartUtils";
+import { useToast } from "../components/toastContext";
 
 /* ─── helpers ─── */
 
@@ -21,12 +23,12 @@ function getVariantPrice(variant) {
   const cp = variant.calculated_price;
   if (cp) {
     const amt = cp.calculated_amount ?? cp.original_amount;
-    if (amt != null) return (amt).toFixed(2);
+    if (amt != null) return amt.toFixed(2);
   }
   if (variant.prices?.length) {
     const usd = variant.prices.find((p) => p.currency_code === "usd");
     const pick = usd || variant.prices[0];
-    if (pick?.amount != null) return (pick.amount).toFixed(2);
+    if (pick?.amount != null) return pick.amount.toFixed(2);
   }
   return null;
 }
@@ -84,6 +86,7 @@ function collectionLink(collection) {
 export default function ProductPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -119,7 +122,11 @@ export default function ProductPage() {
 
   const handleAddToCart = () => {
     if (!selectedSize && sizes.length > 0) {
-      alert("Please select a size");
+      toast.error("Please select a size");
+      return;
+    }
+    if (!selectedColor && colors.length > 0) {
+      toast.error("Please select a color");
       return;
     }
     addToCart({
@@ -138,7 +145,11 @@ export default function ProductPage() {
 
   const handleBuyNow = () => {
     if (!selectedSize && sizes.length > 0) {
-      alert("Please select a size");
+      toast.error("Please select a size");
+      return;
+    }
+    if (!selectedColor && colors.length > 0) {
+      toast.error("Please select a color");
       return;
     }
     addToCart({
@@ -471,28 +482,57 @@ export default function ProductPage() {
             </div>
 
             {/* Add to Cart / Buy Now */}
-            <div className="space-y-3">
-              <button
-                onClick={handleAddToCart}
-                disabled={sizes.length > 0 && !selectedSize}
-                className="w-full py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                <ShoppingCartIcon className="w-5 h-5" />
-                {addedToCart
-                  ? "Added to Cart! ✓"
-                  : sizes.length > 0 && !selectedSize
-                    ? "Select a size"
-                    : "Add to Cart"}
-              </button>
+            {(() => {
+              const needSize = sizes.length > 0 && !selectedSize;
+              const needColor = colors.length > 0 && !selectedColor;
+              const isDisabled = needSize || needColor;
+              const promptText =
+                needSize && needColor
+                  ? "Please select size and color"
+                  : needSize
+                    ? "Please select a size"
+                    : needColor
+                      ? "Please select a color"
+                      : null;
+              const buttonLabel = (action) => {
+                const verb = action === "buy" ? "buy" : "add to cart";
+                if (needSize && needColor)
+                  return `Select size and color to ${verb}`;
+                if (needSize) return `Select a size to ${verb}`;
+                if (needColor) return `Select a color to ${verb}`;
+                return null;
+              };
 
-              <button
-                onClick={handleBuyNow}
-                disabled={sizes.length > 0 && !selectedSize}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Buy Now
-              </button>
-            </div>
+              return (
+                <div className="space-y-3">
+                  {/* {promptText && (
+                    <div className="flex items-center gap-2 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                      <ExclamationCircleIcon className="w-4 h-4 shrink-0" />
+                      <span>{promptText} to continue</span>
+                    </div>
+                  )} */}
+
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={isDisabled}
+                    className="w-full py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  >
+                    {!isDisabled && <ShoppingCartIcon className="w-5 h-5" />}
+                    {addedToCart
+                      ? "Added to Cart! ✓"
+                      : buttonLabel("add") || "Add to Cart"}
+                  </button>
+
+                  <button
+                    onClick={handleBuyNow}
+                    disabled={isDisabled}
+                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {buttonLabel("buy") || "Buy Now"}
+                  </button>
+                </div>
+              );
+            })()}
 
             {/* Shipping Info */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t">

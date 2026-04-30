@@ -10,6 +10,7 @@ import {
   calculateCartTotals,
 } from "../utils/cartUtils";
 import { getImageUrl } from "../lib/medusa";
+import { useToast } from "../components/toastContext";
 
 // Stripe Payment Link - замените на вашу ссылку из dashboard.stripe.com
 // Инструкция по настройке: см. STRIPE_SETUP.md
@@ -20,6 +21,7 @@ export default function CartPage() {
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
+  const toast = useToast();
 
   // Listen for cart updates from other components
   useEffect(() => {
@@ -50,9 +52,9 @@ export default function CartPage() {
   const applyPromo = () => {
     if (promoCode.toUpperCase() === "BEST10") {
       setDiscount(0.1);
-      alert("Promo code applied! 10% off");
+      toast.success("Promo code applied! 10% off");
     } else if (promoCode) {
-      alert("Invalid promo code");
+      toast.error("Invalid promo code");
     }
   };
 

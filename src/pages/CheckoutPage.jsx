@@ -112,20 +112,25 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
       if (shippingOptions.length > 0) {
         // Pick free shipping option if subtotal >= 100, otherwise standard
         const freeOption = shippingOptions.find((o) =>
-          o.name?.toLowerCase().includes("free")
+          o.name?.toLowerCase().includes("free"),
         );
-        const standardOption = shippingOptions.find((o) =>
-          !o.name?.toLowerCase().includes("free")
+        const standardOption = shippingOptions.find(
+          (o) => !o.name?.toLowerCase().includes("free"),
         );
         const selectedOption =
-          subtotal >= 100 && freeOption ? freeOption : (standardOption || shippingOptions[0]);
+          subtotal >= 100 && freeOption
+            ? freeOption
+            : standardOption || shippingOptions[0];
         await addShippingMethod(cartId, selectedOption.id);
         console.log("[Medusa] Shipping method added:", selectedOption.name);
       }
 
       // 6. Create payment collection with correct total (subtotal + shipping + tax)
       const totalInCents = Math.round(total * 100);
-      const paymentCollection = await initPaymentCollection(cartId, totalInCents);
+      const paymentCollection = await initPaymentCollection(
+        cartId,
+        totalInCents,
+      );
       console.log("[Medusa] Payment collection:", paymentCollection?.id);
 
       // 7. Create payment session with Stripe provider
@@ -160,7 +165,9 @@ function CheckoutForm({ cartItems, total, subtotal, shipping, tax }) {
           body: JSON.stringify({ amount: totalInCents }),
         });
       } catch {
-        console.warn("[Stripe] Could not update PaymentIntent amount, proceeding with original amount");
+        console.warn(
+          "[Stripe] Could not update PaymentIntent amount, proceeding with original amount",
+        );
       }
 
       // 6. Confirm the card with Stripe using the PaymentIntent client_secret
